@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>NT Church proto</title>
+    <meta name="description" content="A-Frame NT Proto">
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.0.1"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-animation-component/master/dist/aframe-animation-component.min.js"></script>
+    <script src="https://rawgit.com/gmarty/aframe-ui-components/master/dist/aframe-ui-components.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+        <a-assets>
+            <!-- panoramas -->
+            <img id="holding" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-b.jpg">
+            <img id="homeArea" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/home.jpg">
+            <img id="firstArea" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/alter.jpg">
+
+            <!-- start button -->
+            <!-- <img id="startButton" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/start-button.png"> -->
+
+
+            <!-- marker -->
+            <img id="marker" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/marker.png">
+            <img id="markerImage" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/markerO.png">
+
+            <!-- sound -->
+            <audio id="ambient" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/sound/ambient.mp3"></audio>
+
+            <!-- panels -->
+            <img id="alterContinue" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/move-alter.png">
+            <img id="aisleContinue" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/move-aisle.png">
+            <img id="returnMiddle" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/returnMiddle.png">
+
+            <img id="altarPanel" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/alter-info.jpg">
+            <img id="organPanel" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/images/organ-info.jpg">
+            <img id="sail" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360test/images/sail.png">
+
+            <!-- mixins -->
+            <a-mixin id="areaSpace" begin="fusing" easing="ease-in" attribute="scale"
+             fill="forwards" from="1 1 1" to="1.2 1.2 1.2" dur="200"></a-mixin>
+
+        </a-assets>
+
+        <!-- sound -->
+        <!-- <a-entity sound="src: #ambient; loop: true;"></a-entity> -->
+        <!-- #sound -->
+
+
+<!-- <a-image id="startButtonLink" height="2.6" width="3" position="0 -0 -6" rotation="0 0 0" visible="true" onmousedown="startExp()" sound="src: #ambient; loop: true; on: mousedown"></a-image> -->
+
+        <!-- holding scene -->
+        <a-entity class="scene" id="holdingScene" visible="true">
+
+            <a-sky id="holding360" radius="10" onclick="" src="#holding"></a-sky>
+        </a-entity>
+        <!-- #holding scene -->
+
+        <a-entity class="scene" id="mainScene" visible="false">
+            <a-sky id="main360" radius="10" src="#homeArea" rotation="0 88 -8.48"></a-sky>
+        </a-entity>
+
+        <a-entity class="scene" id="firstScene" visible="false" >
+            <a-sky id="first360" radius="10" src="#firstArea" rotation="0 270 0"></a-sky>
+
+        <!-- marker one -->
+        <a-entity onclick="openMrkOne()">
+            <a-image id="markerOne" src="#marker" height="1.7" width="2" position="1 1 -9" rotation="0 0 0" onclick="" visible="true" data-interactive="true">
+            </a-image>
+            <a-animation attribute="scale" from="0" to="1" fill="forwards" begin="10000"></a-animation>
+        </a-entity>
+
+            <a-entity>
+                <a-image id="mrkOneInfo" src="#altarPanel" height="1" width="1" position="-3 0.13 -8" rotation="0 6 0" scale="5 5 5" onclick="" visible="false">
+                </a-image>
+            </a-entity>
+
+        <!-- marker two -->
+        <a-entity onclick="openMrkTwo()">
+            <a-image id="markerTwo" src="#marker" height="1.7" width="2" position="5.47 0.81 3.28" rotation="0 50 0" onclick="" visible="true" data-interactive="true">
+            </a-image>
+        </a-entity>
+
+        <a-entity>
+            <a-image id="mrkTwoInfo" src="#organPanel" height="1" width="1" position="3.4 -0.45 6" rotation="0 -152 0" scale="5 5 5" onclick="" visible="false">
+            </a-image>
+        </a-entity>
+
+        <!-- marker three -->
+        <!-- <a-entity onclick="openMrkThree()">
+            <a-image id="markerThree" src="#marker" height="1" width="1" position="5.74 7 -0.5" rotation="2 -60 0" onclick="" visible="true">
+            </a-image>
+        </a-entity>
+        <a-entity>
+            <a-image id="mrkThreeInfo" src="#sail" height="1" width="1" position="6.34 4.58 0.59" rotation="2 -84.46 0" scale="5 5 5" onclick="" visible="false">
+            </a-image>
+        </a-entity> -->
+
+<!--        <a-image id="markerTwo" src="#marker" height="1" width="1" position="3.5 0 -8" rotation="2 5 0" onclick="" visible="true"></a-image>
+            <a-image id="markerThree" src="#marker" height="1" width="1" position="5.74 7 -0.5" rotation="2 -60 0" onclick="" visible="true"></a-image> -->
+
+        </a-entity>
+
+
+        <script type="text/javascript">
+            function startExp() {
+                document.getElementById('holdingScene').setAttribute('visible', 'false')
+                document.getElementById('mainScene').setAttribute('visible', 'true')
+                document.getElementById('startButtonLink').setAttribute('visible', 'false')
+                document.getElementById('alterContinueLink').setAttribute('visible', 'true')
+                document.getElementById('returnMiddleLink').setAttribute('visible', 'false')
+            }
+            function jumpholding() {
+                document.getElementById('holdingScene').setAttribute('visible', 'true')
+                document.getElementById('mainScene').setAttribute('visible', 'false')
+                document.getElementById('firstScene').setAttribute('visible', 'false')
+                document.getElementById('alterContinueLink').setAttribute('visible', 'false')
+                document.getElementById('returnMiddleLink').setAttribute('visible', 'false')
+            }
+            function jumpBoat() {
+                document.getElementById('mainScene').setAttribute('visible', 'false')
+                document.getElementById('firstScene').setAttribute('visible', 'true')
+                document.getElementById('alterContinueLink').setAttribute('visible', 'false')
+                document.getElementById('returnMiddleLink').setAttribute('visible', 'true')
+                // document.querySelector('#markerOne').emit('mrkOneIn')
+            }
+            function jumpMain() {
+                document.getElementById('mainScene').setAttribute('visible', 'true')
+                document.getElementById('firstScene').setAttribute('visible', 'false')
+                document.getElementById('alterContinueLink').setAttribute('visible', 'true')
+                document.getElementById('returnMiddleLink').setAttribute('visible', 'false')
+                document.getElementById('mrkOneInfo').setAttribute('visible', 'false')
+                document.getElementById('mrkTwoInfo').setAttribute('visible', 'false')
+                document.getElementById('mrkThreeInfo').setAttribute('visible', 'false')
+            }
+            function openMrkOne() {
+                document.getElementById('mrkOneInfo').setAttribute('visible', 'true')
+                document.getElementById('mrkTwoInfo').setAttribute('visible', 'false')
+                document.getElementById('mrkThreeInfo').setAttribute('visible', 'false')
+            }
+            function openMrkTwo() {
+                document.getElementById('mrkOneInfo').setAttribute('visible', 'false')
+                document.getElementById('mrkTwoInfo').setAttribute('visible', 'true')
+                document.getElementById('mrkThreeInfo').setAttribute('visible', 'false')
+            }
+            function openMrkThree() {
+                document.getElementById('mrkOneInfo').setAttribute('visible', 'false')
+                document.getElementById('mrkTwoInfo').setAttribute('visible', 'false')
+                document.getElementById('mrkThreeInfo').setAttribute('visible', 'true')
+            }
+        </script>
+
+        <a-image id="alterContinueLink" src="#alterContinue" height="3.50" width="2.10" position="0 -1.9 -8.5" rotation="0 0 0" onclick="jumpBoat()" visible="false" data-interactive="true"></a-image>
+
+        <a-image id="returnMiddleLink" src="#returnMiddle" height="3.50" width="2.10" position="0 -7 -6" rotation="-130 180 180" onclick="jumpMain()" visible="false" data-interactive="true"></a-image>
+
+<!--
+        <a-entity position="0 2.2 4">
+            <a-entity camera look-controls wasd-controls >
+                <a-cursor fuse="false" cursor-feedback material="color: cyan; shader: flat">
+                </a-cursor>
+                <a-entity position="0 0 -3"
+                scale="0.4 0.4 0.4"
+                geometry="primitive: ring; radiusOuter: 0.30;
+                          radiusInner: 0.20;"
+                material="color: cyan; shader: flat"
+                cursor="maxDistance: 30; fuse: false;" >
+                    <a-animation begin="click" easing="ease-in" attribute="scale"
+             fill="backwards" from="0.1 0.1 0.1" to="0.4 0.4 0.4" dur="150">
+                    </a-animation>
+                    <a-animation begin="fusing" easing="ease-in" attribute="scale"
+             fill="forwards" from="0.4 0.4 0.4" to="0.1 0.1 0.1" dur="1500">
+                    </a-animation>
+                </a-entity>
+                <a-image id="startButtonLink" src="#startButton" height="2.6" width="3" position="0 -0 -6" rotation="0 0 0" visible="true" onclick="startExp()"></a-image>
+            </a-entity>
+        </a-entity> -->
+
+        <a-camera position="0 2.2 4">
+            <a-box id="startButtonLink" transparent="false" depth="1" height="4" width="0.5" position="0 0 -5" onmousedown="startExp()"></a-box>
+
+    <!--         <a-entity cursor="fuse:true; fuseTimeout:2000;" position="0 0 -1" geometry="primitive: ring; thetaStart:0; thetaLength:0;" scale="0.04 0.04 0.04" cursor-feedback="dur:2000; property:geometry.thetaLength; to:360;" material="color: #6B3670; shader: flat">
+            </a-entity> -->
+<!--
+            <a-entity cursor="fuse:true; fuseTimeout:2000;" position="0 0 -1" geometry="primitive: circle;" radius="0.1" cursor-feedback="dur:2000;" material="color: #6B3670; shader: flat">
+            </a-entity> -->
+
+   <!--          <a-cursor position="0 0 -2" geometry="primitive: circle;" scale="0.2 0.2 0.2" fuse="false" material="color: white; shader: flat"></a-cursor> -->
+
+   <a-cursor cursor="fuse:true; fuseTimeout:2000;" cursor-feedback="dur:2000;"></a-cursor>
+
+
+
+        </a-camera>
+
+
+
+    </a-scene>
+  </body>
+</html>
