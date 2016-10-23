@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Small Space cadets</title>
+    <meta name="description" content="360&deg; Image Gallery - A-Frame">
+    <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.0.1"></script>
+    <script src="components/set-image.js"></script>
+    <script src="components/update-raycaster.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="curiosityNight" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-b.jpg">
+        <img id="cubes" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-a.jpg">
+        <img id="moon" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-d.jpg">
+        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+
+
+        <!-- Image link template to be reused. -->
+        <script id="link" type="text/nunjucks">
+          <a-plane class="link" height="1" width="1"
+            material="shader: flat; opacity: 0"
+            set-image="on: mousedown; target: #image-360; src: {{ src }}"
+            sound="on: click; src: #click-sound"
+            update-raycaster="#cursor"></a-plane>
+        </script>
+      </a-assets>
+
+      <!-- 360-degree image. -->
+      <a-sky id="image-360" radius="10" src="#curiosityNight"></a-sky>
+
+      <!-- Image links. -->
+      <!-- <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+        <a-entity template="src: #link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#city" data-thumb="#city-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
+      </a-entity> -->
+
+<a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()"></a-entity>
+<a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()"></a-entity>
+<a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity>
+
+<script type="text/javascript">
+    function startExp() {
+        document.getElementById('1').setAttribute('visible', 'false');
+        document.getElementById('2').setAttribute('visible', 'true');
+    }
+
+    function next() {
+        document.getElementById('2').setAttribute('visible', 'false');
+        document.getElementById('3').setAttribute('visible', 'true');
+    }
+
+    function next1() {
+        document.getElementById('2').setAttribute('visible', 'false');
+        document.getElementById('3').setAttribute('visible', 'true');
+    }
+</script>
+
+
+      <!-- Camera + cursor. -->
+      <a-entity camera look-controls>
+
+        <a-cursor id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          raycaster="objects: .link"></a-cursor>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>

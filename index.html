@@ -2,28 +2,27 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Small space cadets</title>
-    <meta name="description" content="360&deg; Image Gallery - A-Frame">
+    <title>Small Space Cadets</title>
+    <meta name="description" content="A-Frame NT Proto">
     <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
-    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="https://owenwassell.github.io/smallspace/components/set-image.js"></script>
     <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
     <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
     <script src="https://npmcdn.com/aframe-template-component@3.0.1"></script>
-    <!-- <script src="components/set-image.js"></script> -->
-    <script src="components/update-raycaster.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-animation-component/master/dist/aframe-animation-component.min.js"></script>
+    <script src="https://rawgit.com/gmarty/aframe-ui-components/master/dist/aframe-ui-components.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <a-assets>
-        <img id="city" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-b.jpg">
-        <img id="city-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
-        <img id="cubes-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
-        <img id="sechelt-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-sechelt.jpg">
-        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
-        <img id="cubes" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/cubes.jpg">
-        <img id="sechelt" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+        <a-assets>
+            <!-- panoramas -->
+            <img id="sceneOne" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-b.jpg">
+            <img id="sceneTwo" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-a.jpg">
 
-        <!-- Image link template to be reused. -->
+            <!-- sound -->
+            <audio id="ambient" crossorigin="anonymous" src="https://garethwilliams.github.io/vrassets/protos/360-church/sound/ambient.mp3"></audio>
+
+            <!-- Image link template to be reused. -->
         <!-- <script id="link" type="text/nunjucks">
           <a-plane class="link" height="1" width="1"
             material="shader: flat; src: {{ thumb }}"
@@ -35,52 +34,37 @@
             sound="on: click; src: #click-sound"
             update-raycaster="#cursor"></a-plane>
         </script> -->
-      </a-assets>
 
-      <!-- 360-degree image. -->
-      <!-- <a-sky id="image-360" radius="100" src="#city"></a-sky> -->
+        </a-assets>
 
-      <!-- holding scene -->
-        <a-entity class="scene" id="holdingScene" visible="true">
-            <a-cube color="red" onclick="nextScene()"> </a-cube>
-            <a-sky id="holding360" radius="10" onclick="" src="#city"></a-sky>
+        <!-- sceneOne -->
+        <a-entity class="scene" id="sceneOneScene" material="opacity: 1">
+            <a-animation attribute="material.opacity" begin="fade" duration="9999" to="0"></a-animation>
+            <a-sky id="sceneOne360" radius="10" onclick="" src="#sceneOne"></a-sky>
         </a-entity>
-        <!-- #holding scene -->
+        <!-- #sceneOne -->
 
-        <!-- <a-entity id="scene1">
-          <a-sky id="image-360" radius="100" src="#city" onmousedown="nextclick()"></a-sky>
+        <!-- sceneTwo -->
+        <a-entity class="scene" id="sceneTwoScene" material="opacity: 0">
+            <a-animation attribute="material.opacity" begin="fade" duration="9999" to="1"></a-animation>
+            <a-sky id="main360" radius="10" src="#sceneTwo" rotation="0 88 -8.48"></a-sky>
         </a-entity>
-
-        <a-entity id="scene2" visible="false">
-          <a-sky id="image-scene2" radius="100" src="#cubes"></a-sky>
-        </a-entity> -->
-
-      <!-- Image links. -->
-      <!-- <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
-        <a-entity template="src: #link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
-        <a-entity template="src: #link" data-src="#city" data-thumb="#city-thumb"></a-entity>
-        <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
-      </a-entity> -->
+        <!-- #sceneTwo -->
 
         <script type="text/javascript">
-
-            function nextScene() {
-              document.getElementById('scene1').setAttribute('visible', 'false')
-              document.getElementById('scene2').setAttribute('visible', 'true')
+            function startExp() {
+                document.getElementById('sceneOneScene').emit('fade');
+                document.getElementById('sceneTwoScene').setAttribute('visible', 'true');
             }
         </script>
 
+        <a-camera>
+            <a-box id="startButtonLink" opacity="0" depth="0.1" height="1" width="1" position="0 0 -5" onmousedown="startExp()"></a-box>
+            <a-cursor cursor="fuse:true; fuseTimeout:2000;" cursor-feedback="dur:2000;"></a-cursor>
+        </a-camera>
 
 
-      <!-- Camera + cursor. -->
-      <a-entity camera look-controls>
-        <a-cursor id="cursor"
-          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-          event-set__1="_event: mouseenter; color: springgreen"
-          event-set__2="_event: mouseleave; color: black"
-          raycaster="objects: .link"></a-cursor>
-      </a-entity>
+
     </a-scene>
   </body>
 </html>
