@@ -19,6 +19,7 @@
         <img id="cubes" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-a.jpg">
         <img id="moon" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-d.jpg">
         <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+        <audio id="mars-sound" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/mars.mp3"></audio>
 
 
         <!-- Image link template to be reused. -->
@@ -41,14 +42,16 @@
         <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
       </a-entity> -->
 
-<a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()"></a-entity>
+<!-- <a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()" sound="src: #mars-sound; autoplay: true"></a-entity>
 <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()"></a-entity>
-<a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity>
+<a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity> -->
 
 <script type="text/javascript">
     function startExp() {
         document.getElementById('1').setAttribute('visible', 'false');
         document.getElementById('2').setAttribute('visible', 'true');
+        var entity = document.querySelector('[sound]');
+        entity.pause();
     }
 
     function next() {
@@ -65,6 +68,11 @@
 
       <!-- Camera + cursor. -->
       <a-entity camera look-controls>
+
+          <a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()" sound="src: #mars-sound; autoplay: true"></a-entity>
+          <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()"></a-entity>
+          <a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity>
+
 
         <a-cursor id="cursor"
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
