@@ -51,6 +51,7 @@
 
       <!-- 360-degree image. -->
       <a-sky id="image-360" radius="10" src="#curiosityNight"></a-sky>
+      <audio id="river" src="sample1">
 
       <!-- Image links. -->
       <!-- <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
@@ -84,8 +85,8 @@
       <!-- Camera + cursor. -->
       <a-entity camera look-controls>
 
-          <a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()" set-sound="src: #sample1; autoplay: true"></a-entity>
-          <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()" set-sound="#sample2; autoplay: true"></a-entity>
+          <a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()" sound="src: #sample1; autoplay: false"></a-entity>
+          <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()" sound="#sample2; autoplay: false"></a-entity>
           <a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity>
 
 
