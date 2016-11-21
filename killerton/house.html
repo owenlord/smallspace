@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>National Trust - Killerton House</title>
+    <meta name="description" content="National Trust - Killerton House">
+    <script src="js/aframe-v0.3.2local.js"></script>
+    <script src="js/aframe-stereo-component.js"></script>
+    <script src="js/update-raycaster.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-animation-component/master/dist/aframe-animation-component.min.js"></script>
+    <script src="https://rawgit.com/gmarty/aframe-ui-components/master/dist/aframe-ui-components.min.js"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.0.1"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <!-- panoramas -->
+        <img id="entrance" crossorigin="anonymous" src="assets/entrance/sml/entPan.jpg">
+
+        <!-- 3D -->
+        <img id="hseLeft" crossorigin="anonymous" src="assets/house/3d/hse-lft.jpg">
+        <img id="hseRight" crossorigin="anonymous" src="assets/house/3d/hse-right.jpg">
+
+        <img id="gdnLeft" crossorigin="anonymous" src="assets/garden/sml/pan-left.jpg">
+        <img id="gdnRight" crossorigin="anonymous" src="assets/garden/sml/pan-right.jpg">
+
+        <img id="bearRight" crossorigin="anonymous" src="assets/bearhut/sml/rgt-panBlur.jpg">
+        <img id="bearLeft" crossorigin="anonymous" src="assets/bearhut/sml/lft-panBlur.jpg">
+
+        <img id="welBG" crossorigin="anonymous" src="assets/welcome/blur.jpg">
+
+        <!-- assets -->
+        <img id="target" crossorigin="anonymous" src="assets/global/target.png">
+        <img id="infoPurp" crossorigin="anonymous" src="assets/global/infoPointPurp.png">
+        <img id="backMenu" crossorigin="anonymous" src="assets/global/backMenu.png">
+
+        <!-- Info images -->
+        <img id="wcInfo" crossorigin="anonymous" src="assets/house/wc-info.png">
+        <img id="tpInfo" crossorigin="anonymous" src="assets/house/tp-info.png">
+        <img id="ogInfo" crossorigin="anonymous" src="assets/house/og-info.png">
+
+        <img id="arrow" crossorigin="anonymous" src="assets/global/arrow.png">
+
+        <!-- Guide images -->
+        <img id="guideInfo" crossorigin="anonymous" src="assets/global/guideInfoG.png">
+        <img id="guideMenu" crossorigin="anonymous" src="assets/global/guideMenuG.png">
+        <img id="guideMove" crossorigin="anonymous" src="assets/global/guideMoveG.png">
+        <img id="gdeLbl" crossorigin="anonymous" src="assets/global/guideLbl.png">
+
+        <!-- Move images -->
+        <img id="moveGdn" crossorigin="anonymous" src="assets/house/moveGdn.png">
+        <img id="moveToHse" crossorigin="anonymous" src="assets/global/moveHse.jpg">
+        <img id="moveToBer" crossorigin="anonymous" src="assets/global/moveBear.jpg">
+
+        <!-- Menu images -->
+        <img id="menuEnt" crossorigin="anonymous" src="assets/global/menu/menuEnt.png">
+        <img id="menuHse" crossorigin="anonymous" src="assets/global/menu/menuHouse.png">
+        <img id="menuGdn" crossorigin="anonymous" src="assets/global/menu/menuGarden.png">
+        <img id="menuBer" crossorigin="anonymous" src="assets/global/menu/menuBear.png">
+        <img id="locsLbl" crossorigin="anonymous" src="assets/global/locationsLbla.png">
+
+        
+
+        <!-- Welcome -->
+        <img id="welcome" crossorigin="anonymous" src="assets/global/welcomeTitleVR.png">
+
+        <!-- Mixins -->
+        <a-mixin id="fade" attribute="material.opacity" begin="fadeIn" to="1" dur="2000"></a-mixin>
+        <a-mixin id="Outfade" attribute="material.opacity" begin="fadeOut" to="0" dur="2000"></a-mixin>
+        <a-mixin id="trigInAni" attribute="geometry.theta-length" begin="trigIn" to="360" dur="4000"></a-mixin>
+        <a-mixin id="trigOutAni" attribute="geometry.theta-length" begin="trigOut" to="0" dur="4000"></a-mixin>
+
+        <audio id="welcomeAud" src="assets/audio/welcome.mp3" preload="auto">
+        <audio id="bearHutAud" src="assets/audio/bearHut.mp3" preload="auto">
+        <audio id="hTourGAud" src="assets/audio/hTourGarden.mp3" preload="auto">
+        <audio id="hTourOAud" src="assets/audio/hTourOrgan.mp3" preload="auto">
+        <audio id="hTourPAud" src="assets/audio/hTourPainting.mp3" preload="auto">
+
+        <audio id="hTourSAud" src="assets/audio/hTourIntro.mp3" preload="auto">
+        <audio id="hTourCAud" src="assets/audio/hTourWatercolours.mp3" preload="auto">
+        <audio id="hMusicAud" src="assets/audio/houseMusic.mp3" preload="auto">
+
+        <audio id="gSoundsAud" src="assets/audio/gdnSounds.mp3" preload="auto">
+        <audio id="eTourAud" src="assets/audio/entTourA.mp3" preload="auto">
+        <audio id="outSoundsAud" src="assets/audio/outSounds.mp3" preload="auto">
+
+
+      </a-assets>
+
+     <a-camera stereocam="eye:left;">
+
+       <a-cursor id="cursFuse" scale="2.5 2.5 2.5" geometry="primitive: ring; thetaStart:0; thetaLength:0;" fuse="true" fuseTimeout="4000" cursor-feedback="dur:1500; property:geometry.thetaLength; to:360;" material="color: #FFCF27; shader: flat" visible="true">
+        </a-cursor> 
+
+     <!-- <a-cursor id="curs" fuse="true" fuseTimeout="6000" geometry="primitive: circle; radius: 0.5" scale="0.02 0.02 0.02" material="color: black; shader: flat" visible="true"></a-cursor> -->
+
+      </a-camera>
+          
+
+        <!-- Audio -->
+        <a-sound src="#welcomeAud" id="welcomeS" autoplay="true" position="0 0 0" loop="true" volume="0.2"></a-sound>
+        <a-sound src="#bearHutAud" id="bearHut" autoplay="false" position="0 0 0" loop="true" on="playBH"></a-sound>
+        <a-sound src="#hTourGAud" id="hTourG" autoplay="false" position="0 0 0" loop="false" on="playhTourG"></a-sound>
+        <a-sound src="#hTourOAud" id="hTourO" autoplay="false" position="0 0 0" loop="false" on="playhTourO"></a-sound>
+        <a-sound src="#hTourPAud" id="hTourP" autoplay="false" position="0 0 0" loop="false" on="playhTourP"></a-sound>
+
+        <a-sound src="#hTourSAud" id="hTourS" autoplay="false" position="0 0 0" loop="false" on="playhTourS"></a-sound>
+
+        <a-sound src="#hTourCAud" id="hTourC" autoplay="false" position="0 0 0" loop="false" on="playhTourC"></a-sound>
+
+        <a-sound src="#hMusicAud" id="hMusic" autoplay="false" position="-4 0 -4" loop="true" on="playhMusic"></a-sound>
+
+        <a-sound src="#gSoundsAud" id="gSounds" autoplay="false" position="0 0 0" loop="true" on="playgSounds"></a-sound>
+        <a-sound src="#eTourAud" id="eTour" autoplay="false" position="0 0 0" loop="false" on="playeTour"></a-sound>
+
+        <a-sound src="#outSoundsAud" id="outSounds" autoplay="false" position="0 0 0" loop="true" on="playOSounds"></a-sound>
+
+
+        <!-- WELCOME -->
+        <a-entity id="welcomeScene" visible="true" opacity="1">
+
+          <a-sky src="#welBG" id="wel-panL" stereo="eye:both" radius="5000" theta-length="360" rotation="0 -89 0" scale="0.8 0.8 0.8" visible="true" ></a-sky>
+
+          <a-plane src="#welcome" width="586" height="336" side="front" rotation="0 0 0" position="0 3 -30" scale="0.03 0.03 0.03" transparent="true"></a-plane>
+
+          <a-light type="ambient" intensity="1" color="#fff"></a-light>
+
+          <a-image id="labelLocations" src="#locsLbl" width="1430" height="192" rotation="0 -35.82 0" position="20 10 -20.5" scale="0.01 0.01 0.01" visible="true" transparent="true"></a-image>
+
+          <a-image id="menuEnt-target" src="#menuEnt" width="1000" height="712" rotation="0 -35.82 0" position="18.58 3.80 -21.99" scale="0.01 0.01 0.01" onclick="moveEnt()" visible="true" transparent="true" data-interactive="true">
+          </a-image>
+
+          <a-image id="menuHse-target" src="#menuHse" width="1000" height="712" rotation="0 -62.28 0" position="25.42 3.80 -13.21" scale="0.01 0.01 0.01" onclick="moveHse()" visible="true" transparent="true" data-interactive="true">
+          </a-image>
+
+          <a-image id="menuGdn-target" src="#menuGdn" width="1000" height="712" rotation="0 -84.58 0" position="28.49 3.80 -2.30" scale="0.01 0.01 0.01" onclick="moveGDN()" visible="true" transparent="true" data-interactive="true">
+          </a-image>
+
+          <a-image id="menuBer-target" src="#menuBer" width="1000" height="712" rotation="0 -103 0" position="27.55 3.80 8.82" scale="0.01 0.01 0.01" onclick="moveBer()" visible="true" transparent="true" data-interactive="true">
+          </a-image>
+
+
+          <a-image id="labelGuide" src="#gdeLbl" width="434" height="190" rotation="0 46.58 0" position="-14.30 10 -22.93" scale="0.01 0.01 0.01" visible="true" transparent="true">
+          </a-image>
+
+          <a-image id="moveGuide" src="#guideMove" width="2410" height="1438" rotation="0 46.58 0" position="-16.70 3.1 -20.53" scale="0.005 0.005 0.005" visible="true" transparent="true">
+          </a-image>
+          <a-image id="infoGuide" src="#guideInfo" width="2410" height="1574" rotation="0 78.74 0" position="-22.69 3.3 -9.45"scale="0.005 0.005 0.005" visible="true" transparent="true">
+          </a-image>
+          <a-image id="menuGuide" src="#guideMenu" width="2410" height="1946" rotation="0 98.12 0" position="-23.78 4.15 3.71" scale="0.005 0.005 0.005" visible="true" transparent="true">
+          </a-image>
+
+        </a-entity> 
+
+
+        <!-- ENTRANCE -->
+        <a-entity id="entranceScene" visible="false" opacity="1">
+
+          <a-sky id="entrancePan" radius="5000" src="#entrance" rotation="0 240 0" visible="true" material="opacity: 1"></a-sky>
+
+          <a-image id="house-target" src="#target" width="250" height="150" rotation="0 57 0" position="492 0 334" scale="1 1 1" onclick="moveHse()" visible="false" transparent="true" data-interactive="true">
+          </a-image>
+
+          <a-image id="house-move" src="#moveToHse" width="1552" height="284" rotation="0 -123.50 0" position="436.27.45 -70 300" visible="false" scale="0.15 0.15 0.15">
+          </a-image>
+
+          <a-image id="backToMenu" id="menu-target" src="#backMenu" width="300" height="300" rotation="270 0 0" position="0 -400 0" scale="0.6 0.6 0.6" onclick="moveMenu()" visible="true" transparent="true" data-interactive="true"> </a-image>
+          <a-animation mixin="fade"></a-animation>
+
+          <script type="text/javascript">
+
+            document.querySelector('#eTour').addEventListener('sound-ended', function() {
+                document.getElementById('house-target').setAttribute('visible', 'true')
+                document.getElementById('house-move').setAttribute('visible', 'true')
+            });
+          </script>
+        </a-entity>
+
+        <!-- GARDEN -->
+        <a-entity id="gardenScene" visible="false" material="opacity: 1">
+          <a-sky id="hseGdnPan" radius="5000" src="#garden" rotation="0 320 0" visible="false" material="opacity: 1">
+          </a-sky>
+
+          <a-sky src="#gdnRight" id="gdn-panR" stereo="eye:right" height="12500" rotation="0 237 0" radius="5000" theta-length="360"
+                   rotation="0 100 0" scale="0.8 0.8 0.8" visible="true" ></a-sky>
+          <a-sky src="#gdnLeft" id="gdn-panL" stereo="eye:left" height="12500" rotation="0 237 0" radius="5000" theta-length="360"
+                   rotation="0 100 0" scale="0.8 0.8 0.8" visible="true" ></a-sky>
+          <a-image id="backToMenu" id="menu-target" src="#backMenu" width="300" height="300" rotation="270 0 0" position="0 -400 0" scale="0.6 0.6 0.6" onclick="moveMenu()" visible="true" transparent="true" data-interactive="true"> </a-image>
+
+          <a-image id="bear-target" src="#target" width="300" height="180" rotation="0 0 0" position="-110 0 788" scale="1 1 1" onclick="moveBer()" visible="true" transparent="true" data-interactive="true">
+          </a-image>
+
+          <a-image id="bear-move" src="#moveToBer" width="1430" height="284" rotation="0 -180 0" position="-51 -40 300" visible="true" scale="0.07 0.07 0.07">
+          </a-image>
+
+        </a-entity>
+
+
+
+         <!-- BEAR HUT -->
+        <a-entity id="bearScene" visible="false" material="opacity: 1">
+
+          <a-sky src="#bearRight" id="bear-panR" stereo="eye:right" rotation="0 237 0" radius="5000" theta-length="360" rotation="0 100 0" scale="0.8 0.8 0.8" visible="true"></a-sky>
+          <a-sky src="#bearLeft" id="bear-panL" stereo="eye:left" rotation="0 237 0" radius="5000" theta-length="360" rotation="0 100 0" scale="0.8 0.8 0.8" visible="true"></a-sky>
+        
+          <a-image id="backToMenu" id="menuBer-target" src="#backMenu" width="300" height="300" rotation="270 0 0" position="0 -400 0" scale="0.6 0.6 0.6" onclick="moveMenu()" visible="true" transparent="true" data-interactive="true"> </a-image>
+
+        </a-entity>
+
+
+        
+
+        <!-- HOUSE -->
+        <a-entity id="houseScene" visible="false" opacity="1">
+        <a-sky id="housePan" radius="5000" src="#house" rotation="0 320 0" visible="false">
+            <a-animation mixin="fade"></a-animation>
+          </a-sky>
+          <a-curvedimage src="#hseRight" id="hse-panR" stereo="eye:right" height="12500" rotation="0 237 0" radius="5000" theta-length="360"
+                 rotation="0 100 0" scale="0.8 0.8 0.8" visible="true"></a-curvedimage>
+          <a-curvedimage src="#hseLeft" id="hse-panL" stereo="eye:left" height="12500" rotation="0 237 0" radius="5000" theta-length="360"
+                 rotation="0 100 0" scale="0.8 0.8 0.8" visible="true"></a-curvedimage>
+
+        <a-image id="backToMenu" id="menu-target" src="#backMenu" width="300" height="300" rotation="270 0 0" position="0 -400 0" scale="0.6 0.6 0.6" onclick="moveMenu()" visible="true" transparent="true" data-interactive="true"> </a-image>
+
+      
+        <!-- Watercolour -->
+      <a-entity id="infoWC" visible="true">
+        <a-image id="wc-target" src="#target" width="500" height="1200" rotation="0 45 0" position="286 80 508" scale="1 1 1" onclick="showWC()" visible="true" transparent="true" data-interactive="true">
+        </a-image>
+
+        <a-image id="wc-point" src="#infoPurp" width="100" height="100" rotation="0 45 0" position="228 -32 433" visible="true" scale="0.3 0.3 0.3"></a-image>
+
+        <a-entity id="wc-situ" material="opacity: 0" visible="false" >
+        <a-image src="#wcInfo" width="1342" height="1298" rotation="0 230 0" position="1035 80 720" scale="0.6 0.6 0.6" transparent="true" visible="true">
+        </a-image>
+        <a-image id="arrowRight" src="#arrow" width="248" height="250" rotation="0 45 0" position="1365 240 390" visible="true" scale="0.3 0.3 0.3"></a-image>
+        <a-image id="arrowLeft" src="#arrow" width="248" height="250" rotation="0 45 180" position="735 240 1020" visible="true" scale="0.3 0.3 0.3"></a-image>
+        <a-animation mixin="fade"></a-animation>
+           <a-animation mixin="Outfade"></a-animation>
+        </a-entity>
+      </a-entity>
+
+
+        <!-- Organ Photo -->
+      <a-entity id="infoOP" visible="true">
+        <a-image id="og-target" src="#target" width="800" height="1500" rotation="0 180 0" position="-400 80 885" scale="1 1 1" onclick="showOG()" visible="true" transparent="true" data-interactive="true">
+        </a-image>
+
+        <a-image id="og-point" src="#infoPurp" width="100" height="100" rotation="0 182 0" position="-166.48 -65.22 811" visible="true" scale="0.5 0.5 0.5"></a-image>
+
+        <a-image id="og-situ" src="#ogInfo" width="1342" height="1298" rotation="0 135 0" position="-855 60 885" scale="0.6 0.6 0.6" transparent="true" visible="false" material="opacity: 0">
+           <a-animation mixin="fade"></a-animation>
+           <a-animation mixin="Outfade"></a-animation>
+        </a-image> 
+      </a-entity>
+
+
+        <!-- Thomas Painting -->
+      <a-entity id="infoTP" visible="true">
+        <a-image id="tp-target" src="#target" width="800" height="1500" rotation="0 45 0" position="-385.03 706 -402" scale="1 1 1" onclick="showTP()" visible="true" transparent="true" data-interactive="true">
+        </a-image>
+
+        <a-image id="tp-point" src="#infoPurp" width="100" height="100" rotation="0 45 0" position="-402.85 196 -248" visible="true" scale="0.3 0.3 0.3"></a-image>
+
+        <!-- <a-ring id="tp-timer" color="teal" rotation="0 45 0" position="-380 130 -241" radius-inner="20" theta-length="100" radius-outer="30">
+          <a-animation mixin="trigInAni"></a-animation>
+          <a-animation mixin="trigOutAni"></a-animation>
+        </a-ring> -->
+
+        <a-image id="tp-situ" src="#tpInfo" width="1862" height="984" rotation="0 45 0" position="-315 35 -285" scale="0.2 0.2 0.2" transparent="true" visible="false" material="opacity: 0">
+           <a-animation mixin="fade"></a-animation>
+           <a-animation mixin="Outfade"></a-animation>
+        </a-image>
+      </a-entity>
+
+        <!-- Move from House to Garden -->
+        <a-entity id="moveHseGdn" visible="false">
+          <a-image id="gdn-target" src="#target" width="250" height="200" rotation="0 120 0" position="492 50 -200" scale="1 1 1" onclick="moveGDN()" visible="true" transparent="true" data-interactive="true">
+          </a-image>
+
+          <a-image id="gdn-move" src="#moveGdn" width="913" height="142" rotation="0 -66 0" position="417.71 -50 -176" visible="true" scale="0.2 0.2 0.2">
+          </a-image>
+      </a-entity>
+
+
+
+      
+
+          <script type="text/javascript">
+
+             document.querySelector('#hTourC').addEventListener('sound-ended', function() {
+                 document.getElementById('moveHseGdn').setAttribute('visible', 'true')
+             });
+
+            // document.querySelector('#tp-target').addEventListener('mouseenter', function () {
+            //   document.querySelector('#tp-timer').emit('trigIn');
+            // try onmouseenter within the DOM element!!!!
+            // });
+
+            // document.querySelector('#tp-target').mouseenter(function(){ 
+            //    document.querySelector('#tp-timer').emit('trigIn');
+            // });
+
+            // document.querySelector('#tp-target').mouseleave(function(){ 
+            //    document.querySelector('#tp-timer').emit('trigOut');
+            // });
+            
+
+            function showTP() {
+                document.getElementById('tp-situ').setAttribute('visible', 'true')
+                document.getElementById('tp-target').setAttribute('visible', 'false')
+                document.getElementById('og-situ').setAttribute('visible', 'false')
+                document.getElementById('og-target').setAttribute('visible', 'true')
+                document.getElementById('wc-situ').setAttribute('visible', 'false')
+                document.getElementById('wc-target').setAttribute('visible', 'true')
+                document.querySelector('#hTourP').emit('playhTourP');
+                document.querySelector('#tp-situ').emit('fadeIn');
+                document.querySelector('#og-situ').emit('fadeOut');
+                document.querySelector('#wc-situ').emit('fadeOut');
+                document.querySelector('#tp-timer').emit('trigIn');
+                document.querySelector('#hTourP').emit('playhTourP');
+            }
+
+            function showOG() {
+                document.getElementById('tp-situ').setAttribute('visible', 'false')
+                document.getElementById('tp-target').setAttribute('visible', 'true')
+                document.getElementById('og-situ').setAttribute('visible', 'true')
+                document.getElementById('og-target').setAttribute('visible', 'false')
+                document.getElementById('wc-situ').setAttribute('visible', 'false')
+                document.getElementById('wc-target').setAttribute('visible', 'true')
+                document.querySelector('#og-situ').emit('fadeIn');
+                document.querySelector('#tp-situ').emit('fadeOut');
+                document.querySelector('#wc-situ').emit('fadeOut');
+                document.querySelector('#hTourO').emit('playhTourO');
+            }
+
+            function showWC() {
+                document.getElementById('wc-situ').setAttribute('visible', 'true')
+                document.getElementById('wc-target').setAttribute('visible', 'false')
+                document.getElementById('tp-situ').setAttribute('visible', 'false')
+                document.getElementById('tp-target').setAttribute('visible', 'true')
+                document.getElementById('og-situ').setAttribute('visible', 'false')
+                document.getElementById('og-target').setAttribute('visible', 'true')
+                document.querySelector('#wc-situ').emit('fadeIn');
+                document.querySelector('#tp-situ').emit('fadeOut');
+                document.querySelector('#og-situ').emit('fadeOut');
+                document.querySelector('#hTourC').emit('playhTourC');
+
+            }
+
+        </script>
+      </a-entity>
+
+        <script type="text/javascript">
+
+        function moveMenu() {
+              document.getElementById('welcomeScene').setAttribute('visible', 'true')
+              document.getElementById('entranceScene').setAttribute('visible', 'false')
+              document.getElementById('houseScene').setAttribute('visible', 'false')
+              document.getElementById('gardenScene').setAttribute('visible', 'false')
+              document.getElementById('bearScene').setAttribute('visible', 'false')
+              document.querySelector('#gSounds').pause();
+              document.querySelector('#hMusic').pause();
+              document.querySelector('#welcomeS').play();
+              document.querySelector('#bearHut').pause();
+            }
+
+        function moveEnt() {
+              document.getElementById('welcomeScene').setAttribute('visible', 'false')
+              document.getElementById('entranceScene').setAttribute('visible', 'true')
+              document.getElementById('houseScene').setAttribute('visible', 'false')
+              document.getElementById('gardenScene').setAttribute('visible', 'false')
+              document.getElementById('bearScene').setAttribute('visible', 'false')
+              document.querySelector('#welcomeS').pause();  
+              document.querySelector('#gSounds').play();
+              document.querySelector('#eTour').emit('playeTour');
+              document.querySelector('#gSounds').emit('playgSounds'); 
+            }
+
+        function moveHse() {
+              document.getElementById('welcomeScene').setAttribute('visible', 'false')
+              document.getElementById('entranceScene').setAttribute('visible', 'false')
+              document.getElementById('houseScene').setAttribute('visible', 'true')
+              document.getElementById('gardenScene').setAttribute('visible', 'false')
+              document.getElementById('bearScene').setAttribute('visible', 'false')
+              document.querySelector('#gSounds').pause();
+              document.querySelector('#welcomeS').pause();
+              document.querySelector('#hMusic').play();
+              document.querySelector('#hTourS').play();
+              document.querySelector('#hMusic').emit('playhMusic');
+              document.querySelector('#hTourS').emit('playhTourS');
+            }
+
+            function moveBer() {
+              document.getElementById('welcomeScene').setAttribute('visible', 'false')
+              document.getElementById('entranceScene').setAttribute('visible', 'false')
+              document.getElementById('houseScene').setAttribute('visible', 'false')
+              document.getElementById('gardenScene').setAttribute('visible', 'false')
+              document.getElementById('bearScene').setAttribute('visible', 'true')
+              document.querySelector('#outSounds').pause();
+              document.querySelector('#welcomeS').pause();
+              document.querySelector('#bearHut').play();
+              document.querySelector('#bearHut').emit('playBH');
+            }
+
+          function moveGDN() {
+            document.getElementById('welcomeScene').setAttribute('visible', 'false')
+            document.getElementById('entranceScene').setAttribute('visible', 'false')
+            document.getElementById('houseScene').setAttribute('visible', 'false')
+            document.getElementById('gardenScene').setAttribute('visible', 'true')
+            document.getElementById('bearScene').setAttribute('visible', 'false')
+            document.querySelector('#hMusic').pause();
+            document.querySelector('#welcomeS').pause();
+            document.querySelector('#outSounds').play();
+            document.querySelector('#hTourG').emit('playhTourG');
+            document.querySelector('#outSounds').emit('playOSounds');
+          }
+
+          function menuLoader() {
+            document.querySelector('#menuLoad').emit('loadIn');
+          }
+
+          function menuUnLoader() {
+            document.querySelector('#menuLoad').emit('loadOut');
+          }
+
+
+          // Unfinished switching cursors
+          // onmouseenter="changeCurs()" onmouseleave="changeCursBack()"
+          // function changeCurs() {
+          //   document.getElementById('cursFuse').setAttribute('visible', 'true')
+          //   document.getElementById('curs').setAttribute('visible', 'false')
+          // }
+
+          // function changeCursBack() {
+          //   document.getElementById('cursFuse').setAttribute('visible', 'false')
+          //   document.getElementById('curs').setAttribute('visible', 'true')
+          // }
+
+
+        </script>
+
+
+
+
+      </a-scene>
+  </body>
+</html>
