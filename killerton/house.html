@@ -61,7 +61,7 @@
         <img id="menuBer" crossorigin="anonymous" src="assets/global/menu/menuBear.png">
         <img id="locsLbl" crossorigin="anonymous" src="assets/global/locationsLbla.png">
 
-        
+
 
         <!-- Welcome -->
         <img id="welcome" crossorigin="anonymous" src="assets/global/welcomeTitleVR.png">
@@ -92,12 +92,12 @@
      <a-camera stereocam="eye:left;">
 
        <a-cursor id="cursFuse" scale="2.5 2.5 2.5" geometry="primitive: ring; thetaStart:0; thetaLength:0;" fuse="true" fuseTimeout="4000" cursor-feedback="dur:1500; property:geometry.thetaLength; to:360;" material="color: #FFCF27; shader: flat" visible="true">
-        </a-cursor> 
+        </a-cursor>
 
      <!-- <a-cursor id="curs" fuse="true" fuseTimeout="6000" geometry="primitive: circle; radius: 0.5" scale="0.02 0.02 0.02" material="color: black; shader: flat" visible="true"></a-cursor> -->
 
       </a-camera>
-          
+
 
         <!-- Audio -->
         <a-sound src="#welcomeAud" id="welcomeS" autoplay="true" position="0 0 0" loop="true" volume="0.2"></a-sound>
@@ -152,7 +152,7 @@
           <a-image id="menuGuide" src="#guideMenu" width="2410" height="1946" rotation="0 98.12 0" position="-23.78 4.15 3.71" scale="0.005 0.005 0.005" visible="true" transparent="true">
           </a-image>
 
-        </a-entity> 
+        </a-entity>
 
 
         <!-- ENTRANCE -->
@@ -204,13 +204,13 @@
 
           <a-sky src="#bearRight" id="bear-panR" stereo="eye:right" rotation="0 237 0" radius="5000" theta-length="360" rotation="0 100 0" scale="0.8 0.8 0.8" visible="true"></a-sky>
           <a-sky src="#bearLeft" id="bear-panL" stereo="eye:left" rotation="0 237 0" radius="5000" theta-length="360" rotation="0 100 0" scale="0.8 0.8 0.8" visible="true"></a-sky>
-        
+
           <a-image id="backToMenu" id="menuBer-target" src="#backMenu" width="300" height="300" rotation="270 0 0" position="0 -400 0" scale="0.6 0.6 0.6" onclick="moveMenu()" visible="true" transparent="true" data-interactive="true"> </a-image>
 
         </a-entity>
 
 
-        
+
 
         <!-- HOUSE -->
         <a-entity id="houseScene" visible="false" opacity="1">
@@ -224,7 +224,7 @@
 
         <a-image id="backToMenu" id="menu-target" src="#backMenu" width="300" height="300" rotation="270 0 0" position="0 -400 0" scale="0.6 0.6 0.6" onclick="moveMenu()" visible="true" transparent="true" data-interactive="true"> </a-image>
 
-      
+
         <!-- Watercolour -->
       <a-entity id="infoWC" visible="true">
         <a-image id="wc-target" src="#target" width="500" height="1200" rotation="0 45 0" position="286 80 508" scale="1 1 1" onclick="showWC()" visible="true" transparent="true" data-interactive="true">
@@ -253,7 +253,7 @@
         <a-image id="og-situ" src="#ogInfo" width="1342" height="1298" rotation="0 135 0" position="-855 60 885" scale="0.6 0.6 0.6" transparent="true" visible="false" material="opacity: 0">
            <a-animation mixin="fade"></a-animation>
            <a-animation mixin="Outfade"></a-animation>
-        </a-image> 
+        </a-image>
       </a-entity>
 
 
@@ -286,7 +286,7 @@
 
 
 
-      
+
 
           <script type="text/javascript">
 
@@ -299,14 +299,14 @@
             // try onmouseenter within the DOM element!!!!
             // });
 
-            // document.querySelector('#tp-target').mouseenter(function(){ 
+            // document.querySelector('#tp-target').mouseenter(function(){
             //    document.querySelector('#tp-timer').emit('trigIn');
             // });
 
-            // document.querySelector('#tp-target').mouseleave(function(){ 
+            // document.querySelector('#tp-target').mouseleave(function(){
             //    document.querySelector('#tp-timer').emit('trigOut');
             // });
-            
+
 
             function showTP() {
                 document.getElementById('tp-situ').setAttribute('visible', 'true')
@@ -373,10 +373,10 @@
               document.getElementById('houseScene').setAttribute('visible', 'false')
               document.getElementById('gardenScene').setAttribute('visible', 'false')
               document.getElementById('bearScene').setAttribute('visible', 'false')
-              document.querySelector('#welcomeS').pause();  
+              document.querySelector('#welcomeS').pause();
               document.querySelector('#gSounds').play();
               document.querySelector('#eTour').emit('playeTour');
-              document.querySelector('#gSounds').emit('playgSounds'); 
+              document.querySelector('#gSounds').emit('playgSounds');
             }
 
         function moveHse() {

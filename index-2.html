@@ -18,10 +18,12 @@
         <img id="curiosityNight" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-b.jpg">
         <img id="cubes" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-a.jpg">
         <img id="moon" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/images/curiosity-d.jpg">
-        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
-        <audio id="mars-sound" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/mars.mp3"></audio>
-        <audio id="sample1" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/sample1.mp3"></audio>
-        <audio id="sample2" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/sample2.mp3"></audio>
+
+        <!-- Audio -->
+        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
+        <audio id="mars-sound" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/mars.mp3" preload="auto"></audio>
+        <audio id="sample1" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/sample1.mp3" preload="auto"></audio>
+        <audio id="sample2" crossorigin="anonymous" src="https://owenwassell.github.io/smallspace/sound/sample2.mp3" preload="auto"></audio>
 
 
         <!-- Image link template to be reused. -->
@@ -48,33 +50,37 @@
 <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()"></a-entity>
 <a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity> -->
 
+<a-sound src="#mars-sound" id="marsbg" autoplay="true" position="0 0 0" loop="false" on="playStart" off="stopMarssound"></a-sound>
+<a-sound src="#sample1" id="sample1Audio" autoplay="false" position="0 0 0" loop="false" on="playSample1" off="stopSample1"></a-sound>
+<a-sound src="#sample2" id="sample2Audio" autoplay="false" position="0 0 0" loop="false" on="playSample2"></a-sound>
+
 <script type="text/javascript">
     function startExp() {
         document.getElementById('1').setAttribute('visible', 'false');
         document.getElementById('2').setAttribute('visible', 'true');
-        var entity = document.querySelector('[sound]');
-        entity.pause();
+        document.querySelector('#marsbg').emit('playStart');
     }
 
     function next() {
-        var entity = document.querySelector('[sound]');
-        entity.play();
         document.getElementById('2').setAttribute('visible', 'false');
         document.getElementById('3').setAttribute('visible', 'true');
+        document.querySelector('#marsbg').emit('stopMarssound');
+        document.querySelector('#sample1Audio').emit('playSample1');
     }
 
     function next1() {
         document.getElementById('2').setAttribute('visible', 'false');
         document.getElementById('3').setAttribute('visible', 'true');
+        document.querySelector('#sample1Audio').emit('stopSample1');
+        document.querySelector('#sample2Audio').emit('playSample2');
     }
 </script>
-
 
       <!-- Camera + cursor. -->
       <a-entity camera look-controls>
 
-          <a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()" sound="src: #sample1; autoplay: true"></a-entity>
-          <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()" sound="src: #sample2; autoplay: true"></a-entity>
+          <a-entity id="1" template="src: #link" data-src="#cubes" position="0 0 -5" visible="true" onclick="" onmousedown="startExp()"></a-entity>
+          <a-entity id="2" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next()"></a-entity>
           <a-entity id="3" template="src: #link" data-src="#moon" position="0 0 -5" visible="true" onclick="" onmousedown="next1()"></a-entity>
 
 
